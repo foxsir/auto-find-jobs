@@ -21,10 +21,10 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
         const dayOf7 = document.querySelector(".boss-active-time") ? document.querySelector(".boss-active-time").textContent.includes('日') : false;
         const week = document.querySelector(".boss-active-time") ? document.querySelector(".boss-active-time").textContent.includes('周') : false;
         const just = document.querySelector(".boss-active-time") ? document.querySelector(".boss-active-time").textContent.includes('刚') : false;
-        const month = document.querySelector(".boss-active-time") ? document.querySelector(".boss-active-time").textContent.includes('约') : false;
+        const month = document.querySelector(".boss-active-time") ? document.querySelector(".boss-active-time").textContent.includes('本月') : false;
 
         if(find) {
-            if( online === null && dayOf7 === false && week === false && just === false ) {
+            if( online === null && dayOf7 === false && week === false && just === false && month === false ) {
                 close();
             } else {
                 
