@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>筛选符合条件的职位</title>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="card" style="width: 600px; min-height: 100px">
+        <div class="card-body">
+            <div class="d-flex flex-column gap-2 py-3">
+                <div>
+                    <div>标题包含关键词</div>
+                    <div class="input-group">
+                        <div class="input-group-text">
+                            <div>空格分割</div>
+                        </div>
+                        <textarea class="form-control" name="keywords" aria-label="With textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-row gap-2 py-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked  disabled value="" id="online">
+                    <label class="form-check-label" for="online">
+                        在线
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="active" checked  disabled>
+                    <label class="form-check-label" for="active">
+                        刚刚活跃
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="day" checked  disabled>
+                    <label class="form-check-label" for="day">
+                        3日内活跃
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="week" checked  disabled>
+                    <label class="form-check-label" for="week">
+                        周内活跃
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="month" checked disabled>
+                    <label class="form-check-label" for="month">
+                        月内活跃
+                    </label>
+                </div>
+            </div>
+            <button type="button" id="starter" class="btn btn-primary d-block" style="width: 100%;">开始执行</button>
+        </div>
+
+        <div class="py-2">
+            <ul>
+                <li>需要手动进入职位搜索页面, 并设置好搜索条件, 然后点击插件执行</li>
+                <li>默认使用 “常用语” 第一条打招呼, 请设置常用语</li>
+                <li>默认使用 第一个附件简历发送 (如果boss允许直接发送简历)</li>
+                <li>boss每日打招呼达到上限, 或者职位不符合, 可能打招呼失败需要手动处理</li>
+                <li>如遇到异常, 请重新尝试</li>
+                <li>预祝找到称心工作</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../js/popup.js"></script>
+</body>
+</html>

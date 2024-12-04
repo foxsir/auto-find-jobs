@@ -1,0 +1,34 @@
+{
+	"name": "Boss直聘职位筛选助手",
+	"manifest_version": 3,
+	"version": "1.0.0",
+	"description": "筛选符合条件的职位",
+	"icons": {
+		"128": "icon.png"
+	},
+	"minimum_chrome_version": "55.0.0.0",
+	"permissions": [
+		"cookies",
+		"storage",
+		"background",
+		"tabs",
+		"notifications",
+		"activeTab",
+		"contextMenus",
+		"webRequest",
+		"unlimitedStorage",
+		"scripting"
+	],
+	"content_scripts": [
+		{
+			"matches": ["https://*.zhipin.com/*"],
+			"js": ["js/filter.js", "js/hello.js"],
+			"run_at": "document_idle"
+		}
+	],
+	"action": {
+		"default_title": "筛选活跃的职位",
+		"default_icon": "icon.png",
+		"default_popup": "page/popup.html"
+	}
+}
