@@ -33,7 +33,13 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                         if(res.zpData && res.zpData?.encBossId) {
                             location.href = document.querySelector("a.btn.btn-startchat").getAttribute('redirect-url');
                         } else {
-                            alert('此职位无法打招呼, 请检查是否已经达到上限')
+                            const div = document.createElement("div");
+                            div.innerText = '此职位无法打招呼, 请检查是否已经达到上限';
+                            div.style.paddingTop = '100px';
+                            div.style.textAlign  = 'center';
+                            div.style.fontSize  = '20px';
+                            div.style.paddingBottom = '50px';
+                            document.body.insertBefore(div, document.querySelector('div'));
                         }
                     })
                 }, 1000);
