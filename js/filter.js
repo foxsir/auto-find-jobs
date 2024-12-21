@@ -17,14 +17,35 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
 
         const find = localStorage.getItem('filter_keywords').split(' ').some(item => document.querySelector('.name').textContent.toLowerCase().includes(item));
 
-        const online = document.querySelector(".boss-online-tag");
-        const dayOf7 = document.querySelector(".boss-active-time") ? document.querySelector(".boss-active-time").textContent.includes('日') : false;
-        const week = document.querySelector(".boss-active-time") ? document.querySelector(".boss-active-time").textContent.includes('周') : false;
-        const just = document.querySelector(".boss-active-time") ? document.querySelector(".boss-active-time").textContent.includes('刚') : false;
-        const month = document.querySelector(".boss-active-time") ? document.querySelector(".boss-active-time").textContent.includes('本月') : false;
+        let online = false;
+        let dayOf3 = false;
+        let week = false;
+        let just = false;
+        let month = false;
+
+
+        const filterTime = localStorage.getItem("filterTime");
+        if(filterTime) {
+            const arr = filterTime.split(" ");
+            if(arr.includes("online")) {
+                online = document.querySelector(".boss-online-tag");
+            }
+            if(arr.includes("日")) {
+                dayOf3 = document.querySelector(".boss-active-time").textContent.includes('日');
+            }
+            if(arr.includes("周")) {
+                week = document.querySelector(".boss-active-time").textContent.includes('周');
+            }
+            if(arr.includes("刚")) {
+                just = document.querySelector(".boss-active-time").textContent.includes('刚');
+            }
+            if(arr.includes("月")) {
+                month = document.querySelector(".boss-active-time").textContent.includes('本月');
+            }
+        }
 
         if(find) {
-            if( online === null && dayOf7 === false && week === false && just === false && month === false ) {
+            if( online === false && dayOf3 === false && week === false && just === false && month === false ) {
                 close();
             } else {
                 

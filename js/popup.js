@@ -8,6 +8,12 @@ chrome.tabs.query({active: true, currentWindow: true}).then(([activeTab]) => {
 
 document.querySelector('textarea[name=keywords]').value = localStorage.getItem('filter_keywords') || '前端开发';
 
+document.getElementById('online').checked = localStorage.getItem("filterTime").includes('online');
+document.getElementById('active').checked = localStorage.getItem("filterTime").includes('刚');
+document.getElementById('day').checked = localStorage.getItem("filterTime").includes('日');
+document.getElementById('week').checked = localStorage.getItem("filterTime").includes('周');
+document.getElementById('month').checked = localStorage.getItem("filterTime").includes('月');
+
 
 document.querySelector("#starter").onclick = function() {
     const keywords = document.querySelector('textarea[name=keywords]').value;
@@ -27,10 +33,16 @@ document.querySelector("#starter").onclick = function() {
         return;
     }
 
+    if(filterTime.length === 0) {
+        alert('至少选择一个活跃时间')
+        return;
+    }
+
     const filter = (filterTime, ks) => {
         const _filters = [...filterTime];
         const _keywords = [...ks];
 
+        localStorage.setItem('filterTime', _filters.join(' '))
         localStorage.setItem('filter_keywords', _keywords.join(' '))
 
         const run = () => {
