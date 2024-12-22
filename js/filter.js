@@ -28,7 +28,7 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
         if(filterTime) {
             const arr = filterTime.split(" ");
             if(arr.includes("online")) {
-                online = document.querySelector(".boss-online-tag");
+                online = document.querySelector(".boss-online-tag") !== null;
             }
             if(arr.includes("日")) {
                 dayOf3 = document.querySelector(".boss-active-time").textContent.includes('日');
