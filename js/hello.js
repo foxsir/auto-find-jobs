@@ -18,7 +18,7 @@ async function run() {
                 document.querySelector('.btn-confirm').click()
             }
             await sleep(2000);
-            document.querySelector('.chat-controls').childNodes[1].click();
+            document.querySelector('.chat-controls').childNodes[1].childNodes[0].click();
             await sleep(2000);
             document.querySelector('.sentence-panel').querySelectorAll('li')[0].click()
             await sleep(2000);
