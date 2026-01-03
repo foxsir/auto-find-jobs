@@ -16,16 +16,16 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                 online = document.querySelector(".boss-online-tag") !== null;
             }
             if(arr.includes("日")) {
-                dayOf3 = document.querySelector(".boss-active-time")?.textContent.includes('日');
+                dayOf3 = document.querySelector(".boss-active-time")?.textContent?.includes('日');
             }
             if(arr.includes("周")) {
-                week = document.querySelector(".boss-active-time")?.textContent.includes('周');
+                week = document.querySelector(".boss-active-time")?.textContent?.includes('周');
             }
             if(arr.includes("刚")) {
-                just = document.querySelector(".boss-active-time")?.textContent.includes('刚');
+                just = document.querySelector(".boss-active-time")?.textContent?.includes('刚');
             }
             if(arr.includes("月")) {
-                month = document.querySelector(".boss-active-time")?.textContent.includes('本月');
+                month = document.querySelector(".boss-active-time")?.textContent?.includes('本月');
             }
         }
 
