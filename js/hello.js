@@ -22,7 +22,7 @@ async function run() {
             await sleep(2000);
             document.querySelector('.sentence-panel').querySelectorAll('li')[0].click()
             await sleep(2000);
-            window.close();
+            window.close(); 
         } else {
             window.close();
         }

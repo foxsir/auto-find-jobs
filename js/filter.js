@@ -1,20 +1,5 @@
 if(location.href.includes('filter_jobs_plugin=yes')) {
     setTimeout(() => {
-        // const frontend = document.querySelector('.name').textContent.includes('远程') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('js') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('前端') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('ts') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('typescript') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('node') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('vue') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('react') ||
-        //     // document.querySelector('.name').textContent.toLowerCase().includes('java') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('后端') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('electron') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('web') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('php') ||
-        //     document.querySelector('.name').textContent.toLowerCase().includes('javascript');
-
         const find = localStorage.getItem('filter_keywords').split(' ').some(item => document.querySelector('.name').textContent.toLowerCase().includes(item));
 
         let online = false;
@@ -31,16 +16,16 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                 online = document.querySelector(".boss-online-tag") !== null;
             }
             if(arr.includes("日")) {
-                dayOf3 = document.querySelector(".boss-active-time").textContent.includes('日');
+                dayOf3 = document.querySelector(".boss-active-time")?.textContent.includes('日');
             }
             if(arr.includes("周")) {
-                week = document.querySelector(".boss-active-time").textContent.includes('周');
+                week = document.querySelector(".boss-active-time")?.textContent.includes('周');
             }
             if(arr.includes("刚")) {
-                just = document.querySelector(".boss-active-time").textContent.includes('刚');
+                just = document.querySelector(".boss-active-time")?.textContent.includes('刚');
             }
             if(arr.includes("月")) {
-                month = document.querySelector(".boss-active-time").textContent.includes('本月');
+                month = document.querySelector(".boss-active-time")?.textContent.includes('本月');
             }
         }
 

@@ -8,11 +8,11 @@ chrome.tabs.query({active: true, currentWindow: true}).then(([activeTab]) => {
 
 document.querySelector('textarea[name=keywords]').value = localStorage.getItem('filter_keywords') || '前端开发';
 
-document.getElementById('online').checked = localStorage.getItem("filterTime").includes('online');
-document.getElementById('active').checked = localStorage.getItem("filterTime").includes('刚');
-document.getElementById('day').checked = localStorage.getItem("filterTime").includes('日');
-document.getElementById('week').checked = localStorage.getItem("filterTime").includes('周');
-document.getElementById('month').checked = localStorage.getItem("filterTime").includes('月');
+document.getElementById('online').checked = !!localStorage.getItem("filterTime")?.includes('online');
+document.getElementById('active').checked = !!localStorage.getItem("filterTime")?.includes('刚');
+document.getElementById('day').checked = !!localStorage.getItem("filterTime")?.includes('日');
+document.getElementById('week').checked = !!localStorage.getItem("filterTime")?.includes('周');
+document.getElementById('month').checked = !!localStorage.getItem("filterTime")?.includes('月');
 
 
 document.querySelector("#starter").onclick = function() {
@@ -45,32 +45,31 @@ document.querySelector("#starter").onclick = function() {
         localStorage.setItem('filterTime', _filters.join(' '))
         localStorage.setItem('filter_keywords', _keywords.join(' '))
 
-        const run = () => {
-            const jobList = document.querySelectorAll(".job-list-box>li");
-            jobList.forEach((item, index) => {
-                let link = item.querySelector('.job-card-body > a').href;
-
-                setTimeout(() => {
-                    open(`${link}&filter_jobs_plugin=yes`);
-
-                    if(jobList.length - 1 === index) {
-                        if(!document.querySelector('.options-pages').lastChild.className.includes('disabled')) {
-                            document.querySelector('.options-pages').lastChild.click();
-                            setTimeout(() => {
-                                run();
-                            }, 3000)
-                        }
-                    }
-                }, index * 8000)
-            })
+        const run = (item) => {
+            item.querySelector('.job-info').click();
+            
+            setTimeout(() => {
+                open(document.querySelector('.more-job-btn').href + '&filter_jobs_plugin=yes');
+    
+            
+                if(item.nextElementSibling) {
+                    item.nextElementSibling?.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+                    setTimeout(() => {
+                        run(item.nextElementSibling)
+                    }, 2000);
+                } else {
+                    alert('本页职位已全部筛选完成');
+                }
+            }, 2000);
+            
         }
 
-        run();
+        run(document.querySelector(".rec-job-list>.card-area"));
     }
 
-    if(tab.url.includes("www.zhipin.com/web/geek/job") !== true) {
+    if(tab.url.includes("www.zhipin.com/web/geek/jobs") !== true) {
         alert('请在职位列表页执行');
-        open("www.zhipin.com/web/geek/job", 'geek_job');
+        open("https://www.zhipin.com/web/geek/jobs", 'geek_job');
     } else {
         chrome.scripting.executeScript({
             target: {tabId: tab.id},
