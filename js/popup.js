@@ -64,7 +64,7 @@ document.querySelector("#starter").onclick = function() {
             
         }
 
-        run(document.querySelector(".rec-job-list>.card-area"));
+        run(document.querySelector(".rec-job-list .job-card-wrap.active").parentNode);
     }
 
     if(tab.url.includes("www.zhipin.com/web/geek/jobs") !== true) {
