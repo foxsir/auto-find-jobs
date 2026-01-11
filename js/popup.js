@@ -57,6 +57,11 @@ document.querySelector("#starter").onclick = function() {
                     setTimeout(() => {
                         run(item.nextElementSibling)
                     }, 2000);
+                } else if(item.nextElementSibling.nextElementSibling) {
+                    item.nextElementSibling.nextElementSibling.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+                    setTimeout(() => {
+                        run(item.nextElementSibling.nextElementSibling)
+                    }, 2000);
                 } else {
                     alert('本页职位已全部筛选完成');
                 }
