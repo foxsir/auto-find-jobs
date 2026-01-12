@@ -48,9 +48,8 @@ document.querySelector("#starter").onclick = function() {
         const run = (item) => {
             item.querySelector('.job-info').click();
             
-            setTimeout(() => {
+            if(!window.onfocus) {
                 open(document.querySelector('.more-job-btn').href + '&filter_jobs_plugin=yes');
-    
             
                 if(item.nextElementSibling) {
                     item.nextElementSibling?.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
@@ -60,7 +59,21 @@ document.querySelector("#starter").onclick = function() {
                 } else {
                     alert('本页职位已全部筛选完成');
                 }
-            }, 2000);
+            }
+            window.onfocus = () => {
+                setTimeout(() => {
+                    open(document.querySelector('.more-job-btn').href + '&filter_jobs_plugin=yes');
+            
+                    if(item.nextElementSibling) {
+                        item.nextElementSibling?.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+                        setTimeout(() => {
+                            run(item.nextElementSibling)
+                        }, 2000);
+                    } else {
+                        alert('本页职位已全部筛选完成');
+                    }
+                }, 2000);
+            };
             
         }
 

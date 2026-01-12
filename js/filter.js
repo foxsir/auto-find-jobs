@@ -1,6 +1,6 @@
 if(location.href.includes('filter_jobs_plugin=yes')) {
     setTimeout(() => {
-        const find = localStorage.getItem('filter_keywords').split(' ').some(item => document.querySelector('.name').textContent.toLowerCase().includes(item));
+        const find = localStorage.getItem('filter_keywords')?.split(' ').some(item => document.querySelector('.name').textContent.toLowerCase().includes(item.toLowerCase()));
 
         let online = false;
         let dayOf3 = false;
@@ -31,6 +31,7 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
 
         if(find) {
             if( online === false && dayOf3 === false && week === false && just === false && month === false ) {
+                console.dir('活跃度不匹配, 关闭窗口');
                 close();
             } else {
                 
@@ -51,6 +52,7 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                 }, 1000);
             }
         } else {
+            console.dir('关键词不匹配, 关闭窗口');
             close();
         }
     }, 3000);
