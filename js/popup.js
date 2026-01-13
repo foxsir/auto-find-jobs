@@ -71,6 +71,7 @@ document.querySelector("#starter").onclick = function() {
                         }, 2000);
                     } else {
                         alert('本页职位已全部筛选完成');
+                        window.onfocus = null;
                     }
                 }, 2000);
             };
