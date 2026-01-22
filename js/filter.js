@@ -56,4 +56,9 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
             close();
         }
     }, 3000);
+
+
+    setTimeout(() => {
+        window.close();
+    }, 20000);
 }

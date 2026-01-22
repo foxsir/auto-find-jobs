@@ -28,6 +28,11 @@ async function run() {
         }
     }
 
+
+    setTimeout(() => {
+        window.close();
+    }, 20000);
+
 }
 
 run().then()
