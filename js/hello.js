@@ -3,7 +3,15 @@ function sleep(ms = 0) {
 }
 
 async function run() {
+    if(location.href.includes('/web/geek/jobs')) {
+        return;
+    }
+
     if(location.href.includes('/web/geek/chat')) {
+        setTimeout(() => {
+            window.close();
+        }, 20000);
+
         await sleep(3000);
         const len = document.querySelector('.chat-message').querySelectorAll('.item-myself').length
         if(len === 0) {
@@ -22,16 +30,11 @@ async function run() {
             await sleep(2000);
             document.querySelector('.sentence-panel').querySelectorAll('li')[0].click()
             await sleep(2000);
-            window.close(); 
+            window.close();
         } else {
             window.close();
         }
     }
-
-
-    setTimeout(() => {
-        window.close();
-    }, 20000);
 
 }
 
