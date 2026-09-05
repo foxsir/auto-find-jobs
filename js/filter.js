@@ -104,7 +104,18 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                 }
 
                 setTimeout(() => {
-                    fetch(chatBtn.getAttribute('data-url')).then(res => res.json()).then((res) => {
+                    let chatUrl;
+                    try {
+                        chatUrl = new URL(chatBtn.getAttribute('data-url'), location.href);
+                    } catch(e) {
+                        chatUrl = null;
+                    }
+                    if(!chatUrl || !/(^|\.)zhipin\.com$/.test(chatUrl.hostname)) {
+                        console.dir('data-url 校验失败, 已阻止请求非法域名');
+                        showBar('data-url 校验失败, 已阻止请求非法域名', true);
+                        return;
+                    }
+                    fetch(chatUrl.href).then(res => res.json()).then((res) => {
                         if(res.zpData && res.zpData?.encBossId) {
                             location.href = chatBtn.getAttribute('redirect-url');
                         } else {
