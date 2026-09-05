@@ -1,6 +1,7 @@
 if(location.href.includes('filter_jobs_plugin=yes')) {
     setTimeout(async () => {
         const mode = localStorage.getItem('filter_mode') || 'keyword';
+        console.dir(`当前筛选模式: ${mode}`);
 
         let find = false;
 
@@ -28,6 +29,18 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                 }
                 console.dir(`AI 匹配结果: score=${result.score}, match=${result.match}, 理由: ${result.reason}`);
                 find = result.match === true;
+
+                // 在页面底部浮动展示评分条, 倒计时 5 秒后再进行下一步
+                const bar = document.createElement('div');
+                bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:2147483647;'
+                    + 'padding:12px 16px;font-size:16px;text-align:center;color:#fff;box-shadow:0 -2px 8px rgba(0,0,0,.3);'
+                    + (find ? 'background:#52c41a;' : 'background:#ff4d4f;');
+                const barText = `AI 评分: ${result.score} 分 | ${find ? '匹配' : '不匹配'} | ${result.reason}`;
+                document.body.appendChild(bar);
+                for(let countdown = 5; countdown > 0; countdown--) {
+                    bar.innerText = `${barText} (${countdown}s)`;
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
             } catch(e) {
                 console.dir(`AI 匹配请求失败: ${e.message}, 关闭窗口`);
                 close();

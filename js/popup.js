@@ -76,12 +76,17 @@ document.querySelector("#starter").onclick = function() {
         return;
     }
 
-    const filter = (filterTime, ks) => {
+    const filter = (filterTime, ks, mode, apiKey, resume) => {
         const _filters = [...filterTime];
         const _keywords = [...ks];
 
+        // 注入到 zhipin.com 页面上下文执行, 需把配置"搬运"到页面的 localStorage,
+        // 详情页的 content script 才能读到 (插件页与网页的 localStorage 相互隔离)
         localStorage.setItem('filterTime', _filters.join(' '))
         localStorage.setItem('filter_keywords', _keywords.join(' '))
+        localStorage.setItem('filter_mode', mode)
+        localStorage.setItem('deepseek_api_key', apiKey)
+        localStorage.setItem('ai_resume', resume)
 
         const run = (item) => {
             item.querySelector('.job-info').click();
@@ -126,7 +131,7 @@ document.querySelector("#starter").onclick = function() {
         chrome.scripting.executeScript({
             target: {tabId: tab.id},
             function: filter,
-            args: [filterTime, ks]
+            args: [filterTime, ks, mode, localStorage.getItem('deepseek_api_key') || '', localStorage.getItem('ai_resume') || '']
         });
     }
 };
