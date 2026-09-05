@@ -1,6 +1,41 @@
 if(location.href.includes('filter_jobs_plugin=yes')) {
-    setTimeout(() => {
-        const find = localStorage.getItem('filter_keywords')?.split(' ').some(item => document.querySelector('.name').textContent.toLowerCase().includes(item.toLowerCase()));
+    setTimeout(async () => {
+        const mode = localStorage.getItem('filter_mode') || 'keyword';
+
+        let find = false;
+
+        if(mode === 'ai') {
+            const title = document.querySelector('.name')?.textContent?.trim() || '';
+            const jdEl = document.querySelector('.job-sec-text')
+                || document.querySelector('.job-sec .text')
+                || document.querySelector('.job-detail');
+            const jd = (jdEl?.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 2000);
+
+            try {
+                const result = await chrome.runtime.sendMessage({
+                    type: 'ai-match',
+                    payload: {
+                        apiKey: localStorage.getItem('deepseek_api_key'),
+                        resume: localStorage.getItem('ai_resume'),
+                        title,
+                        jd
+                    }
+                });
+                if(result?.error) {
+                    console.dir(`AI 匹配出错: ${result.error}, 关闭窗口`);
+                    close();
+                    return;
+                }
+                console.dir(`AI 匹配结果: score=${result.score}, match=${result.match}, 理由: ${result.reason}`);
+                find = result.match === true;
+            } catch(e) {
+                console.dir(`AI 匹配请求失败: ${e.message}, 关闭窗口`);
+                close();
+                return;
+            }
+        } else {
+            find = localStorage.getItem('filter_keywords')?.split(' ').some(item => document.querySelector('.name').textContent.toLowerCase().includes(item.toLowerCase()));
+        }
 
         let online = false;
         let dayOf3 = false;
@@ -52,7 +87,7 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                 }, 1000);
             }
         } else {
-            console.dir('关键词不匹配, 关闭窗口');
+            console.dir(mode === 'ai' ? 'AI 判定不匹配, 关闭窗口' : '关键词不匹配, 关闭窗口');
             close();
         }
     }, 3000);
@@ -60,5 +95,5 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
 
     setTimeout(() => {
         window.close();
-    }, 20000);
+    }, 30000);
 }

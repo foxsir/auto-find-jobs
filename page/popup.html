@@ -12,7 +12,17 @@
     <div class="card" style="width: 600px; min-height: 100px">
         <div class="card-body">
             <div style="text-align: right;"><a href="https://github.com/foxsir/auto-find-jobs" target="_blank">GitHub</a></div>
-            <div class="d-flex flex-column gap-2 py-3">
+            <div class="d-flex flex-row gap-3 py-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="filterMode" id="modeKeyword" value="keyword" checked>
+                    <label class="form-check-label" for="modeKeyword">关键词模式</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="filterMode" id="modeAi" value="ai">
+                    <label class="form-check-label" for="modeAi">AI 模式 (DeepSeek)</label>
+                </div>
+            </div>
+            <div class="d-flex flex-column gap-2 py-3" id="keywordSection">
                 <div>
                     <div>标题包含关键词</div>
                     <div class="input-group">
@@ -21,6 +31,16 @@
                         </div>
                         <textarea class="form-control" name="keywords" aria-label="With textarea"></textarea>
                     </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column gap-2 py-3 d-none" id="aiSection">
+                <div>
+                    <div>DeepSeek API Key <a href="https://platform.deepseek.com/api_keys" target="_blank">获取</a></div>
+                    <input type="password" class="form-control" name="apiKey" placeholder="sk-...">
+                </div>
+                <div>
+                    <div>个人介绍/技能描述</div>
+                    <textarea class="form-control" name="aiResume" rows="5" placeholder="粘贴简历中的个人/技能介绍到此处"></textarea>
                 </div>
             </div>
             <div class="d-flex flex-row gap-2 py-3">

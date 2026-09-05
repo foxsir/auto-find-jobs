@@ -14,8 +14,32 @@ document.getElementById('day').checked = !!localStorage.getItem("filterTime")?.i
 document.getElementById('week').checked = !!localStorage.getItem("filterTime")?.includes('周');
 document.getElementById('month').checked = !!localStorage.getItem("filterTime")?.includes('月');
 
+// 模式与 AI 配置的读写
+const filterMode = localStorage.getItem('filter_mode') || 'keyword';
+document.querySelector(`input[name=filterMode][value=${filterMode}]`).checked = true;
+document.querySelector('input[name=apiKey]').value = localStorage.getItem('deepseek_api_key') || '';
+document.querySelector('textarea[name=aiResume]').value = localStorage.getItem('ai_resume') || '';
+
+// 输入时立即保存到本地, 防止未点开始就关闭弹窗导致丢失
+document.querySelector('input[name=apiKey]').addEventListener('input', (e) => {
+    localStorage.setItem('deepseek_api_key', e.target.value.trim());
+});
+document.querySelector('textarea[name=aiResume]').addEventListener('input', (e) => {
+    localStorage.setItem('ai_resume', e.target.value.trim());
+});
+
+const toggleModeSections = () => {
+    const mode = document.querySelector('input[name=filterMode]:checked').value;
+    document.getElementById('keywordSection').classList.toggle('d-none', mode !== 'keyword');
+    document.getElementById('aiSection').classList.toggle('d-none', mode !== 'ai');
+    localStorage.setItem('filter_mode', mode); // 切换时立即记住模式选择
+};
+document.querySelectorAll('input[name=filterMode]').forEach(radio => radio.addEventListener('change', toggleModeSections));
+toggleModeSections();
+
 
 document.querySelector("#starter").onclick = function() {
+    const mode = document.querySelector('input[name=filterMode]:checked').value;
     const keywords = document.querySelector('textarea[name=keywords]').value;
     const filterTime = [];
     document.getElementById('online').checked ? filterTime.push('online') : '';
@@ -27,10 +51,24 @@ document.querySelector("#starter").onclick = function() {
     const ks = keywords.split(" ").filter(i => i.length > 0);
     localStorage.setItem('filterTime', filterTime.join(' '))
     localStorage.setItem('filter_keywords', ks.join(' '))
+    localStorage.setItem('filter_mode', mode)
+    localStorage.setItem('deepseek_api_key', document.querySelector('input[name=apiKey]').value.trim())
+    localStorage.setItem('ai_resume', document.querySelector('textarea[name=aiResume]').value.trim())
 
-    if(ks.join(' ').length === 0) {
+    if(mode === 'keyword' && ks.join(' ').length === 0) {
         alert('请输入关键词')
         return;
+    }
+
+    if(mode === 'ai') {
+        if(!localStorage.getItem('deepseek_api_key')) {
+            alert('请输入 DeepSeek API Key')
+            return;
+        }
+        if(!localStorage.getItem('ai_resume')) {
+            alert('请输入个人介绍')
+            return;
+        }
     }
 
     if(filterTime.length === 0) {

@@ -19,6 +19,12 @@
 		"unlimitedStorage",
 		"scripting"
 	],
+	"host_permissions": [
+		"https://api.deepseek.com/"
+	],
+	"background": {
+		"service_worker": "js/background.js"
+	},
 	"content_scripts": [
 		{
 			"matches": ["https://*.zhipin.com/*"],
