@@ -10,7 +10,8 @@ document.querySelector('textarea[name=keywords]').value = localStorage.getItem('
 
 document.getElementById('online').checked = !!localStorage.getItem("filterTime")?.includes('online');
 document.getElementById('active').checked = !!localStorage.getItem("filterTime")?.includes('刚');
-document.getElementById('day').checked = !!localStorage.getItem("filterTime")?.includes('日');
+document.getElementById('today').checked = !!localStorage.getItem("filterTime")?.includes('今日');
+document.getElementById('day').checked = !!localStorage.getItem("filterTime")?.includes('3日');
 document.getElementById('week').checked = !!localStorage.getItem("filterTime")?.includes('周');
 document.getElementById('month').checked = !!localStorage.getItem("filterTime")?.includes('月');
 
@@ -44,7 +45,8 @@ document.querySelector("#starter").onclick = function() {
     const filterTime = [];
     document.getElementById('online').checked ? filterTime.push('online') : '';
     document.getElementById('active').checked ? filterTime.push('刚') : '';
-    document.getElementById('day').checked ? filterTime.push('日') : '';
+    document.getElementById('today').checked ? filterTime.push('今日') : '';
+    document.getElementById('day').checked ? filterTime.push('3日') : '';
     document.getElementById('week').checked ? filterTime.push('周') : '';
     document.getElementById('month').checked ? filterTime.push('月') : '';
 

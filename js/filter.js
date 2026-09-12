@@ -60,6 +60,7 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
 
         let online = false;
         let dayOf3 = false;
+        let today = false;
         let week = false;
         let just = false;
         let month = false;
@@ -71,8 +72,11 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
             if(arr.includes("online")) {
                 online = document.querySelector(".boss-online-tag") !== null;
             }
-            if(arr.includes("日")) {
-                dayOf3 = document.querySelector(".boss-active-time")?.textContent?.includes('日');
+            if(arr.includes("3日")) {
+                dayOf3 = document.querySelector(".boss-active-time")?.textContent?.includes('3日');
+            }
+            if(arr.includes("今日")) {
+                today = document.querySelector(".boss-active-time")?.textContent?.includes('今日');
             }
             if(arr.includes("周")) {
                 week = document.querySelector(".boss-active-time")?.textContent?.includes('周');
@@ -86,10 +90,10 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
         }
 
         const activeTimeText = document.querySelector(".boss-active-time")?.textContent?.trim() || '未找到 .boss-active-time 元素';
-        console.dir(`活跃度检查: online=${online}, 刚=${just}, 日=${dayOf3}, 周=${week}, 月=${month}, Boss状态: ${activeTimeText}`);
+        console.dir(`活跃度检查: online=${online}, 刚=${just}, 今日=${today}, 3日=${dayOf3}, 周=${week}, 月=${month}, Boss状态: ${activeTimeText}`);
 
         if(find) {
-            if( online === false && dayOf3 === false && week === false && just === false && month === false ) {
+            if( online === false && dayOf3 === false && today === false && week === false && just === false && month === false ) {
                 console.dir('活跃度不匹配, 关闭窗口');
                 showBar(`活跃度不匹配 (Boss状态: ${activeTimeText}), 关闭窗口`, true);
                 await new Promise(resolve => setTimeout(resolve, 3000));
