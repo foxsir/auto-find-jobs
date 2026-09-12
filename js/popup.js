@@ -91,10 +91,20 @@ document.querySelector("#starter").onclick = function() {
         localStorage.setItem('ai_resume', resume)
 
         const run = (item) => {
-            item.querySelector('.job-info').click();
-            
+            const jobInfo = item.querySelector('.job-info');
+            if(!jobInfo) {
+                alert('未找到 .job-info，Boss直聘页面结构可能已变更，请更新插件');
+                return;
+            }
+            jobInfo.click();
+
             if(!window.onfocus) {
-                open(document.querySelector('.more-job-btn').href + '&filter_jobs_plugin=yes');
+                const moreJobBtn = document.querySelector('.more-job-btn');
+                if(!moreJobBtn) {
+                    alert('未找到 .more-job-btn，Boss直聘页面结构可能已变更，请更新插件');
+                    return;
+                }
+                open(moreJobBtn.href + '&filter_jobs_plugin=yes');
             
                 if(item.nextElementSibling) {
                     item.nextElementSibling?.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
@@ -107,7 +117,13 @@ document.querySelector("#starter").onclick = function() {
             }
             window.onfocus = () => {
                 setTimeout(() => {
-                    open(document.querySelector('.more-job-btn').href + '&filter_jobs_plugin=yes');
+                    const moreJobBtn = document.querySelector('.more-job-btn');
+                    if(!moreJobBtn) {
+                        alert('未找到 .more-job-btn，Boss直聘页面结构可能已变更，请更新插件');
+                        window.onfocus = null;
+                        return;
+                    }
+                    open(moreJobBtn.href + '&filter_jobs_plugin=yes');
             
                     if(item.nextElementSibling) {
                         item.nextElementSibling?.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
@@ -123,7 +139,12 @@ document.querySelector("#starter").onclick = function() {
             
         }
 
-        run(document.querySelector(".rec-job-list .job-card-wrap.active").parentNode);
+        const firstCard = document.querySelector(".rec-job-list .job-card-wrap.active");
+        if(!firstCard) {
+            alert('请先在职位列表中选中一个职位卡片，或页面结构已变更请更新插件');
+            return;
+        }
+        run(firstCard.parentNode);
     }
 
     if(tab.url.includes("www.zhipin.com/web/geek/jobs") !== true) {

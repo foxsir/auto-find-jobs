@@ -55,7 +55,13 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                 return;
             }
         } else {
-            find = localStorage.getItem('filter_keywords')?.split(' ').some(item => document.querySelector('.name').textContent.toLowerCase().includes(item.toLowerCase()));
+            const nameEl = document.querySelector('.name');
+            if(!nameEl) {
+                alert('未找到 .name，Boss直聘页面结构可能已变更，请更新插件');
+                close();
+                return;
+            }
+            find = localStorage.getItem('filter_keywords')?.split(' ').some(item => nameEl.textContent.toLowerCase().includes(item.toLowerCase()));
         }
 
         let online = false;
