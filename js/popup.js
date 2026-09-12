@@ -100,12 +100,8 @@ document.querySelector("#starter").onclick = function() {
 
             if(!window.onfocus) {
                 const moreJobBtn = document.querySelector('.more-job-btn');
-                if(!moreJobBtn) {
-                    alert('未找到 .more-job-btn，Boss直聘页面结构可能已变更，请更新插件');
-                    return;
-                }
                 open(moreJobBtn.href + '&filter_jobs_plugin=yes');
-            
+
                 if(item.nextElementSibling) {
                     item.nextElementSibling?.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
                     setTimeout(() => {
@@ -118,13 +114,8 @@ document.querySelector("#starter").onclick = function() {
             window.onfocus = () => {
                 setTimeout(() => {
                     const moreJobBtn = document.querySelector('.more-job-btn');
-                    if(!moreJobBtn) {
-                        alert('未找到 .more-job-btn，Boss直聘页面结构可能已变更，请更新插件');
-                        window.onfocus = null;
-                        return;
-                    }
                     open(moreJobBtn.href + '&filter_jobs_plugin=yes');
-            
+
                     if(item.nextElementSibling) {
                         item.nextElementSibling?.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
                         setTimeout(() => {
@@ -136,7 +127,7 @@ document.querySelector("#starter").onclick = function() {
                     }
                 }, 2000);
             };
-            
+
         }
 
         const firstCard = document.querySelector(".rec-job-list .job-card-wrap.active");
