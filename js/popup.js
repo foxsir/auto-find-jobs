@@ -118,13 +118,14 @@ document.querySelector("#starter").onclick = function() {
             // 切换职位后等待右侧详情面板刷新, 先检查活跃度, 不符直接跳过不打开详情页
             setTimeout(() => {
                 const activeEl = document.querySelector('.boss-active-time');
-                if(!activeEl) {
-                    alert('未找到 .boss-active-time，Boss直聘页面结构可能已变更，请更新插件');
+                const onlineEl = document.querySelector('.boss-online-tag');
+                if(!activeEl && !onlineEl) {
+                    alert('未找到 .boss-active-time / .boss-online-tag，Boss直聘页面结构可能已变更，请更新插件');
                     return;
                 }
-                const activeText = activeEl.textContent || '';
+                const activeText = activeEl?.textContent || '';
                 const matchActive = _filters.some(f => {
-                    if(f === 'online') return document.querySelector('.boss-online-tag') !== null;
+                    if(f === 'online') return onlineEl !== null;
                     if(f === '刚') return activeText.includes('刚');
                     if(f === '今日') return activeText.includes('今日');
                     if(f === '3日') return activeText.includes('3日');
