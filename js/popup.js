@@ -90,6 +90,23 @@ document.querySelector("#starter").onclick = function() {
         localStorage.setItem('deepseek_api_key', apiKey)
         localStorage.setItem('ai_resume', resume)
 
+        // 非阻塞提示条: 顶部居中, 自动淡出, 复用同一元素避免堆叠
+        const toast = (text) => {
+            let el = document.getElementById('filter-jobs-toast');
+            if(!el) {
+                el = document.createElement('div');
+                el.id = 'filter-jobs-toast';
+                el.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:2147483647;'
+                    + 'padding:10px 20px;font-size:14px;color:#fff;background:rgba(0,0,0,.75);border-radius:6px;'
+                    + 'pointer-events:none;transition:opacity .3s;';
+                document.body.appendChild(el);
+            }
+            el.innerText = text;
+            el.style.opacity = '1';
+            clearTimeout(el._timer);
+            el._timer = setTimeout(() => { el.style.opacity = '0'; }, 1800);
+        };
+
         const run = (item) => {
             const jobInfo = item.querySelector('.job-info');
             if(!jobInfo) {
@@ -98,35 +115,58 @@ document.querySelector("#starter").onclick = function() {
             }
             jobInfo.click();
 
-            if(!window.onfocus) {
-                const moreJobBtn = document.querySelector('.more-job-btn');
-                open(moreJobBtn.href + '&filter_jobs_plugin=yes');
-
-                if(item.nextElementSibling) {
-                    item.nextElementSibling?.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
-                    setTimeout(() => {
-                        run(item.nextElementSibling)
-                    }, 2000);
-                } else {
-                    alert('本页职位已全部筛选完成');
+            // 切换职位后等待右侧详情面板刷新, 先检查活跃度, 不符直接跳过不打开详情页
+            setTimeout(() => {
+                const activeEl = document.querySelector('.boss-active-time');
+                if(!activeEl) {
+                    alert('未找到 .boss-active-time，Boss直聘页面结构可能已变更，请更新插件');
+                    return;
                 }
-            }
-            window.onfocus = () => {
-                setTimeout(() => {
-                    const moreJobBtn = document.querySelector('.more-job-btn');
-                    open(moreJobBtn.href + '&filter_jobs_plugin=yes');
+                const activeText = activeEl.textContent || '';
+                const matchActive = _filters.some(f => {
+                    if(f === 'online') return document.querySelector('.boss-online-tag') !== null;
+                    if(f === '刚') return activeText.includes('刚');
+                    if(f === '今日') return activeText.includes('今日');
+                    if(f === '3日') return activeText.includes('3日');
+                    if(f === '周') return activeText.includes('周');
+                    if(f === '月') return activeText.includes('本月');
+                });
 
+                const toNext = () => {
                     if(item.nextElementSibling) {
-                        item.nextElementSibling?.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+                        item.nextElementSibling.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
                         setTimeout(() => {
                             run(item.nextElementSibling)
                         }, 2000);
                     } else {
                         alert('本页职位已全部筛选完成');
-                        window.onfocus = null;
                     }
-                }, 2000);
-            };
+                };
+
+                if(!matchActive) {
+                    toast(`活跃度不匹配, 跳过: ${activeText.trim()}`);
+                    toNext();
+                    return;
+                }
+
+                // 打开详情页, 轮询窗口关闭后推进下一个 (纯定时器驱动, 不依赖页面焦点, 后台也不会停)
+                const moreJobBtn = document.querySelector('.more-job-btn');
+                if(!moreJobBtn) {
+                    alert('未找到 .more-job-btn，Boss直聘页面结构可能已变更，请更新插件');
+                    return;
+                }
+                const detailWin = open(moreJobBtn.href + '&filter_jobs_plugin=yes');
+                if(!detailWin) {
+                    alert('详情页打开失败，可能被浏览器拦截，请允许弹出窗口后重试');
+                    return;
+                }
+                const timer = setInterval(() => {
+                    if(detailWin.closed) {
+                        clearInterval(timer);
+                        setTimeout(toNext, 1500);
+                    }
+                }, 500);
+            }, 2000);
 
         }
 
