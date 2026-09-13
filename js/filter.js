@@ -57,7 +57,6 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
         } else {
             const nameEl = document.querySelector('.name');
             if(!nameEl) {
-                alert('未找到 .name，Boss直聘页面结构可能已变更，请更新插件');
                 close();
                 return;
             }

@@ -55,7 +55,6 @@ async function run() {
         await sleep(3000);
         const chatMessage = document.querySelector('.chat-message');
         if(!chatMessage) {
-            alert('未找到 .chat-message，Boss直聘页面结构可能已变更，请更新插件');
             return;
         }
         const myMsgs = chatMessage.querySelectorAll('.item-myself');
@@ -64,7 +63,6 @@ async function run() {
             await sleep(2000);
             const chatControls = document.querySelector('.chat-controls');
             if(!chatControls || !chatControls.childNodes[5]) {
-                alert('未找到 .chat-controls 常用语按钮，Boss直聘页面结构可能已变更，请更新插件');
                 return;
             }
             chatControls.childNodes[5].click();
@@ -78,14 +76,12 @@ async function run() {
             }
             await sleep(2000);
             if(!chatControls.childNodes[1] || !chatControls.childNodes[1].childNodes[0]) {
-                alert('未找到 .chat-controls 打招呼按钮，Boss直聘页面结构可能已变更，请更新插件');
                 return;
             }
             chatControls.childNodes[1].childNodes[0].click();
             await sleep(2000);
             const sentencePanel = document.querySelector('.sentence-panel');
             if(!sentencePanel || !sentencePanel.querySelectorAll('li')[0]) {
-                alert('未找到 .sentence-panel 常用语列表，Boss直聘页面结构可能已变更，请更新插件');
                 return;
             }
             sentencePanel.querySelectorAll('li')[0].click()

@@ -110,7 +110,6 @@ document.querySelector("#starter").onclick = function() {
         const run = (item) => {
             const jobInfo = item.querySelector('.job-info');
             if(!jobInfo) {
-                alert('未找到 .job-info，Boss直聘页面结构可能已变更，请更新插件');
                 return;
             }
             jobInfo.click();
@@ -120,7 +119,6 @@ document.querySelector("#starter").onclick = function() {
                 const activeEl = document.querySelector('.boss-active-time');
                 const onlineEl = document.querySelector('.boss-online-tag');
                 if(!activeEl && !onlineEl) {
-                    alert('未找到 .boss-active-time / .boss-online-tag，Boss直聘页面结构可能已变更，请更新插件');
                     return;
                 }
                 const activeText = activeEl?.textContent || '';
@@ -153,7 +151,6 @@ document.querySelector("#starter").onclick = function() {
                 // 打开详情页, 轮询窗口关闭后推进下一个 (纯定时器驱动, 不依赖页面焦点, 后台也不会停)
                 const moreJobBtn = document.querySelector('.more-job-btn');
                 if(!moreJobBtn) {
-                    alert('未找到 .more-job-btn，Boss直聘页面结构可能已变更，请更新插件');
                     return;
                 }
                 const detailWin = open(moreJobBtn.href + '&filter_jobs_plugin=yes');
@@ -173,7 +170,7 @@ document.querySelector("#starter").onclick = function() {
 
         const firstCard = document.querySelector(".rec-job-list .job-card-wrap.active");
         if(!firstCard) {
-            alert('请先在职位列表中选中一个职位卡片，或页面结构已变更请更新插件');
+            alert('请先在职位列表中选中一个职位卡片');
             return;
         }
         run(firstCard.parentNode);
