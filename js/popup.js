@@ -21,6 +21,25 @@ document.querySelector(`input[name=filterMode][value=${filterMode}]`).checked = 
 document.querySelector('input[name=apiKey]').value = localStorage.getItem('deepseek_api_key') || '';
 document.querySelector('textarea[name=aiResume]').value = localStorage.getItem('ai_resume') || '';
 
+// 匹配分数阈值滑杆: 范围 40-100, 实时显示语义描述并即时保存
+const scoreThreshold = document.getElementById('scoreThreshold');
+const thresholdDesc = (v) => {
+    if(v < 60) return '宽松: 沾边即打招呼, 广撒网';
+    if(v < 75) return '适中: 技能/方向大体符合 (默认)';
+    if(v < 90) return '严格: 要求技能高度吻合';
+    return '非常严格: 近乎完全匹配才打招呼';
+};
+const renderThreshold = () => {
+    document.getElementById('thresholdValue').innerText = scoreThreshold.value;
+    document.getElementById('thresholdDesc').innerText = thresholdDesc(Number(scoreThreshold.value));
+};
+scoreThreshold.value = localStorage.getItem('ai_score_threshold') || 70;
+renderThreshold();
+scoreThreshold.addEventListener('input', () => {
+    renderThreshold();
+    localStorage.setItem('ai_score_threshold', scoreThreshold.value);
+});
+
 // 输入时立即保存到本地, 防止未点开始就关闭弹窗导致丢失
 document.querySelector('input[name=apiKey]').addEventListener('input', (e) => {
     localStorage.setItem('deepseek_api_key', e.target.value.trim());
@@ -56,6 +75,7 @@ document.querySelector("#starter").onclick = function() {
     localStorage.setItem('filter_mode', mode)
     localStorage.setItem('deepseek_api_key', document.querySelector('input[name=apiKey]').value.trim())
     localStorage.setItem('ai_resume', document.querySelector('textarea[name=aiResume]').value.trim())
+    localStorage.setItem('ai_score_threshold', document.getElementById('scoreThreshold').value)
 
     if(mode === 'keyword' && ks.join(' ').length === 0) {
         alert('请输入关键词')
@@ -78,7 +98,7 @@ document.querySelector("#starter").onclick = function() {
         return;
     }
 
-    const filter = (filterTime, ks, mode, apiKey, resume) => {
+    const filter = (filterTime, ks, mode, apiKey, resume, threshold) => {
         const _filters = [...filterTime];
         const _keywords = [...ks];
 
@@ -89,6 +109,7 @@ document.querySelector("#starter").onclick = function() {
         localStorage.setItem('filter_mode', mode)
         localStorage.setItem('deepseek_api_key', apiKey)
         localStorage.setItem('ai_resume', resume)
+        localStorage.setItem('ai_score_threshold', threshold)
 
         // 非阻塞提示条: 顶部居中, 自动淡出, 复用同一元素避免堆叠
         const toast = (text) => {
@@ -183,7 +204,7 @@ document.querySelector("#starter").onclick = function() {
         chrome.scripting.executeScript({
             target: {tabId: tab.id},
             function: filter,
-            args: [filterTime, ks, mode, localStorage.getItem('deepseek_api_key') || '', localStorage.getItem('ai_resume') || '']
+            args: [filterTime, ks, mode, localStorage.getItem('deepseek_api_key') || '', localStorage.getItem('ai_resume') || '', localStorage.getItem('ai_score_threshold') || '70']
         });
     }
 };

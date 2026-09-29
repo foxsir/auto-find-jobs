@@ -30,6 +30,7 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                     payload: {
                         apiKey: localStorage.getItem('deepseek_api_key'),
                         resume: localStorage.getItem('ai_resume'),
+                        threshold: Number(localStorage.getItem('ai_score_threshold')) || 70,
                         title,
                         jd
                     }
