@@ -37,6 +37,8 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                 });
                 if(result?.error) {
                     console.dir(`AI 匹配出错: ${result.error}, 关闭窗口`);
+                    showBar(`AI 匹配出错: ${result.error}, 关闭窗口`, true);
+                    await new Promise(resolve => setTimeout(resolve, 3000));
                     close();
                     return;
                 }
@@ -52,6 +54,8 @@ if(location.href.includes('filter_jobs_plugin=yes')) {
                 }
             } catch(e) {
                 console.dir(`AI 匹配请求失败: ${e.message}, 关闭窗口`);
+                showBar(`AI 匹配请求失败: ${e.message}, 关闭窗口`, true);
+                await new Promise(resolve => setTimeout(resolve, 3000));
                 close();
                 return;
             }
